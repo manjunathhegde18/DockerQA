@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker Interview Questions &amp; Answers - Complete Guide (Basic to Advanced)</title>
+<style>
+:root{
+  --bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--border:#30363d;--text:#e6edf3;--muted:#8b949e;
+  --accent:#2496ed;--accent2:#58a6ff;--green:#3fb950;--yellow:#d29922;--red:#f85149;--purple:#bc8cff;--code:#0b0f14;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header h1{font-size:20px;margin:0;display:flex;align-items:center;gap:10px}
+header h1 .whale{font-size:26px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-left:auto}
+#search{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;width:280px;font-size:14px}
+#search:focus{outline:none;border-color:var(--accent)}
+.btn{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+.btn:hover{border-color:var(--accent)}
+.btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+#count{color:var(--muted);font-size:13px;min-width:110px}
+.layout{display:flex}
+nav{position:sticky;top:61px;height:calc(100vh - 61px);overflow-y:auto;width:270px;flex-shrink:0;border-right:1px solid var(--border);padding:16px 10px;background:var(--panel)}
+nav h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:6px 10px 10px}
+nav a{display:flex;justify-content:space-between;padding:6px 10px;border-radius:6px;color:var(--text);font-size:14px}
+nav a:hover{background:var(--panel2);text-decoration:none}
+nav a .n{color:var(--muted);font-size:12px}
+main{flex:1;padding:24px 40px 80px;max-width:1150px}
+.intro{background:linear-gradient(135deg,#0f2a44,#161b22);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:28px}
+.intro h2{margin-top:0}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+section{margin-bottom:40px;counter-reset:none}
+section>h2{border-bottom:2px solid var(--accent);padding-bottom:6px;font-size:22px;scroll-margin-top:80px}
+section>p.sub{color:var(--muted);margin-top:-6px}
+details.qa{background:var(--panel);border:1px solid var(--border);border-radius:8px;margin:10px 0;overflow:hidden;counter-increment:q}
+details.qa[open]{border-color:#3b5d80}
+details.qa summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:flex-start}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:"Q" counter(q);color:var(--accent2);font-weight:700;min-width:44px;flex-shrink:0}
+details.qa summary .qt{flex:1}
+details.qa summary::after{content:"+";color:var(--muted);font-size:18px;line-height:1}
+details.qa[open] summary::after{content:"\2212"}
+details.qa summary:hover{background:var(--panel2)}
+.ans{padding:4px 20px 16px 70px;border-top:1px solid var(--border)}
+.ans p{margin:10px 0}
+.ans ul,.ans ol{margin:8px 0;padding-left:22px}
+.ans li{margin:4px 0}
+.lv{font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;white-space:nowrap;align-self:center}
+.lv.basic{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.4)}
+.lv.inter{background:rgba(210,153,34,.15);color:var(--yellow);border:1px solid rgba(210,153,34,.4)}
+.lv.adv{background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.4)}
+.lv.scen{background:rgba(188,140,255,.15);color:var(--purple);border:1px solid rgba(188,140,255,.4)}
+code{font-family:"JetBrains Mono","Fira Code",Consolas,monospace;background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:.88em;color:#ffa657}
+pre{position:relative;background:var(--code);border:1px solid var(--border);border-radius:6px;padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.5}
+pre code{background:none;padding:0;color:#c9d1d9;font-size:13px}
+pre .copy{position:absolute;top:6px;right:6px;font-size:11px;padding:3px 8px;opacity:.6}
+pre:hover .copy{opacity:1}
+pre .c{color:#8b949e}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2)}
+.tip,.warn{border-left:4px solid var(--green);background:rgba(63,185,80,.08);padding:8px 12px;border-radius:4px;margin:10px 0}
+.warn{border-color:var(--yellow);background:rgba(210,153,34,.08)}
+.tip b,.warn b{display:inline}
+.hidden{display:none!important}
+.cheat{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.cheat .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px 16px}
+.cheat .card h4{margin:4px 0 8px;color:var(--accent2)}
+.cheat pre{margin:0;font-size:12px}
+#top{position:fixed;right:20px;bottom:20px;z-index:30}
+@media (max-width:900px){nav{display:none}main{padding:16px}.ans{padding-left:20px}#search{width:100%}}
+@media print{header,nav,#top,.copy{display:none!important}details.qa{break-inside:avoid}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="whale">&#128051;</span> Docker Interview Q&amp;A - Complete Guide</h1>
+  <div class="controls">
+    <input id="search" type="search" placeholder="Search questions, answers, commands... ( / )">
+    <button class="btn active" data-filter="all">All</button>
+    <button class="btn" data-filter="basic">Basic</button>
+    <button class="btn" data-filter="inter">Intermediate</button>
+    <button class="btn" data-filter="adv">Advanced</button>
+    <button class="btn" data-filter="scen">Scenario</button>
+    <button class="btn" id="expand">Expand all</button>
+    <button class="btn" id="collapse">Collapse all</button>
+    <span id="count"></span>
+  </div>
+</header>
+
+<div class="layout">
+<nav id="toc"><h3>Sections</h3></nav>
+
+<main>
+<div class="intro">
+  <h2>How to use this page</h2>
+  <p>This page covers the Docker questions interviewers ask most, from basics through internals, security, networking, BuildKit, and production troubleshooting. Each answer is written the way you would say it in an interview: a short direct answer first, then detail and a working example. Use the search box (press <code>/</code>) or the level filters to drill. Click a question to expand it.</p>
+  <div class="legend">
+    <span class="lv basic">Basic</span><span class="lv inter">Intermediate</span><span class="lv adv">Advanced</span><span class="lv scen">Scenario / Troubleshooting</span>
+  </div>
+  <p class="tip"><b>Interview tip:</b> For every "what is X" question, say what it is, why it exists, and give a one-line example or real use case. Interviewers care more about the <i>why</i> and the trade-offs than definitions.</p>
+</div>
+
+<!-- ===================================================== -->
+<section id="fundamentals" data-title="Fundamentals">
+<h2>1. Docker Fundamentals</h2>
+
+<details class="qa" data-level="basic"><summary><span class="qt">What is Docker and what problem does it solve?</span></summary><div class="ans">
+<p>Docker is a platform for building, shipping, and running applications inside <b>containers</b>. A container packages an application with its runtime, libraries, and config so it runs the same way on a laptop, in CI, and in production.</p>
+<ul>
+<li><b>Problem solved:</b> "It works on my machine". It removes environment drift between dev, test, and prod.</li>
+<li><b>Benefits:</b> fast startup (milliseconds), high density, immutable artifacts, reproducible builds, and easy CI/CD and microservices.</li>
+<li><b>Core pieces:</b> Docker Engine (daemon), CLI, images, containers, registries, volumes, networks, Compose, BuildKit.</li>
+</ul>
+<pre><code>docker run -d -p 8080:80 --name web nginx:1.27
+curl localhost:8080</code></pre>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">Container vs Virtual Machine - what is the difference?</span></summary><div class="ans">
+<table>
+<tr><th></th><th>Container</th><th>Virtual Machine</th></tr>
+<tr><td>Isolation</td><td>Process-level, using kernel namespaces and cgroups</td><td>Hardware-level, using a hypervisor</td></tr>
+<tr><td>Kernel</td><td>Shares the host kernel</td><td>Each VM runs its own guest kernel</td></tr>
+<tr><td>Size</td><td>MBs</td><td>GBs</td></tr>
+<tr><td>Boot time</td><td>Milliseconds to seconds</td><td>Seconds to minutes</td></tr>
+<tr><td>Density</td><td>Hundreds per host</td><td>Tens per host</td></tr>
+<tr><td>Security boundary</td><td>Weaker (shared kernel)</td><td>Stronger</td></tr>
+<tr><td>OS flexibility</td><td>Linux containers need a Linux kernel</td><td>Any OS</td></tr>
+</table>
+<p><b>Key line:</b> a container is just an isolated Linux process. A VM is a whole emulated machine. For stronger isolation of containers you can use gVisor, Kata Containers, or Firecracker.</p>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">What is the difference between an image and a container?</span></summary><div class="ans">
+<p>An <b>image</b> is a read-only, layered template: the filesystem plus metadata such as CMD, ENV, and exposed ports. A <b>container</b> is a running (or stopped) instance of an image. It adds a thin <b>writable layer</b> on top, plus runtime config such as networks, mounts, and limits.</p>
+<p>Analogy: image = class, container = object. One image can run many containers.</p>
+<pre><code>docker images          <span class="c"># list images</span>
+docker ps -a           <span class="c"># list containers (running + stopped)</span>
+docker run -d --name a1 nginx &amp;&amp; docker run -d --name a2 nginx   <span class="c"># 2 containers, 1 image</span></code></pre>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">Explain the Docker architecture (client, daemon, containerd, runc, shim).</span></summary><div class="ans">
+<pre><code>docker CLI ──REST API (unix:///var/run/docker.sock)──► dockerd
+                                                        │ gRPC
+                                                        ▼
+                                                   containerd  (image pull, snapshots, lifecycle)
+                                                        │
+                                                        ▼
+                                          containerd-shim-runc-v2  (one per container)
+                                                        │
+                                                        ▼
+                                                      runc  (creates namespaces/cgroups, then exits)
+                                                        │
+                                                        ▼
+                                                 your process (PID 1 in container)</code></pre>
+<ul>
+<li><b>docker CLI</b>: client that sends REST calls to the daemon.</li>
+<li><b>dockerd</b>: the API server. Handles builds (BuildKit), networking, volumes, and orchestration.</li>
+<li><b>containerd</b>: a CNCF-graduated runtime that manages the container lifecycle, image storage, and snapshots. Kubernetes uses it directly.</li>
+<li><b>shim</b>: keeps the container running if dockerd or containerd restarts, holds its STDIO, and reports the exit status.</li>
+<li><b>runc</b>: the OCI reference low-level runtime. It sets up namespaces, cgroups, and seccomp, then execs the process.</li>
+</ul>
+<p class="tip">Because of the shim, enabling <code>"live-restore": true</code> in <code>daemon.json</code> lets containers keep running while dockerd is upgraded or restarted.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">What is OCI? How do Docker, containerd, CRI-O, and Podman relate?</span></summary><div class="ans">
+<p>The <b>Open Container Initiative</b> defines three specs: <b>Image spec</b> (image format), <b>Runtime spec</b> (how to run a filesystem bundle), and <b>Distribution spec</b> (registry API). Any compliant tool can build or run any compliant image.</p>
+<ul>
+<li><b>Docker</b>: full developer platform (build + run + Compose). It uses containerd and runc underneath.</li>
+<li><b>containerd</b>: high-level runtime used by Docker and by Kubernetes (through CRI).</li>
+<li><b>CRI-O</b>: lightweight runtime built only for Kubernetes. OpenShift uses it.</li>
+<li><b>Podman</b>: daemonless, rootless by default, with a Docker-compatible CLI (<code>alias docker=podman</code>). Supports pods.</li>
+<li><b>Buildah / Kaniko</b>: build images without a Docker daemon (useful in CI and Kubernetes).</li>
+</ul>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">Kubernetes removed "dockershim". Does that mean Docker images no longer work in Kubernetes?</span></summary><div class="ans">
+<p><b>No.</b> Kubernetes 1.24 removed <i>dockershim</i>, the adapter that let the kubelet talk to dockerd. Kubelets now talk to CRI runtimes such as containerd or CRI-O directly. Images built with Docker are standard OCI images and run unchanged.</p>
+<p>What changed: you can no longer rely on <code>/var/run/docker.sock</code> on nodes (for example, Docker-in-Docker builds or log agents that read Docker paths). Use <code>crictl</code> instead of <code>docker</code> on nodes.</p>
+<pre><code>crictl ps            <span class="c"># instead of docker ps on a k8s node</span>
+crictl logs &lt;id&gt;
+crictl inspecti &lt;image&gt;</code></pre>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">Explain the container lifecycle and states.</span></summary><div class="ans">
+<p>States: <b>created</b>, <b>running</b>, <b>paused</b>, <b>restarting</b>, <b>exited</b>, <b>dead</b>, and <b>removing</b>.</p>
+<pre><code>docker create --name app nginx    <span class="c"># created</span>
+docker start app                  <span class="c"># running</span>
+docker pause app                  <span class="c"># paused (cgroup freezer, SIGSTOP-like)</span>
+docker unpause app
+docker stop app                   <span class="c"># SIGTERM -> wait 10s -> SIGKILL  => exited</span>
+docker rm app                     <span class="c"># removed (writable layer deleted)</span>
+docker inspect -f '{{.State.Status}} {{.State.ExitCode}}' app</code></pre>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">What is Docker Hub / a registry / a repository / a tag?</span></summary><div class="ans">
+<ul>
+<li><b>Registry</b>: a server that stores images. Examples: Docker Hub, Harbor, ECR, GCR/Artifact Registry, ACR, Quay, the OpenShift internal registry.</li>
+<li><b>Repository</b>: a collection of related images, for example <code>library/nginx</code>.</li>
+<li><b>Tag</b>: a mutable label pointing to an image, for example <code>1.27</code>, <code>latest</code>.</li>
+<li><b>Digest</b>: an immutable content hash, for example <code>nginx@sha256:ab12...</code>.</li>
+</ul>
+<p>Full reference format: <code>[registry[:port]/][namespace/]repo[:tag|@digest]</code>, for example <code>registry.example.com:5000/team/api:1.4.2</code>.</p>
+</div></details>
+</section>
+
+<!-- ===================================================== -->
+<section id="images" data-title="Images &amp; Layers">
+<h2>2. Images, Layers &amp; Build Cache</h2>
+
+<details class="qa" data-level="inter"><summary><span class="qt">What are image layers and how does copy-on-write work?</span></summary><div class="ans">
+<p>Each filesystem-changing Dockerfile instruction (<code>RUN</code>, <code>COPY</code>, <code>ADD</code>) creates a read-only <b>layer</b>, which is a tar diff of the filesystem. Layers are content-addressed, cached, and shared between images. When a container starts, Docker stacks the layers with a union filesystem (<b>overlay2</b>) and adds a writable container layer on top.</p>
+<p><b>Copy-on-write:</b> when a container modifies a file from a lower layer, the file is first copied up into the writable layer and then changed. The original layer stays untouched, which lets 100 containers share one image on disk.</p>
+<pre><code>docker history nginx:1.27            <span class="c"># see layers and sizes</span>
+docker inspect -f '{{json .RootFS.Layers}}' nginx:1.27
+docker inspect -f '{{json .GraphDriver.Data}}' &lt;container&gt;   <span class="c"># LowerDir/UpperDir/MergedDir</span></code></pre>
+<p class="warn"><b>Gotcha:</b> deleting a file in a later layer does <i>not</i> shrink the image. It adds a "whiteout" marker while the bytes remain in the earlier layer. Install and clean up in the <b>same</b> <code>RUN</code>.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">How does the Docker build cache work and how do you optimize for it?</span></summary><div class="ans">
+<p>For each instruction, the builder checks whether a cached layer exists with the same parent and the same instruction. For <code>COPY</code>/<code>ADD</code> it also compares file checksums. The <b>first cache miss invalidates every following layer</b>.</p>
+<p><b>Rule:</b> order instructions from least to most frequently changing. Copy dependency manifests before source code.</p>
+<pre><code><span class="c"># BAD - any source change re-installs all dependencies</span>
+COPY . .
+RUN npm ci
+
+<span class="c"># GOOD - dependencies are cached until package*.json changes</span>
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .</code></pre>
+<p>Other tips: use <code>.dockerignore</code>, BuildKit cache mounts, <code>--cache-from</code> in CI, and pin base image versions. Use <code>--no-cache</code> to force a rebuild and <code>--pull</code> to refresh the base image.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">How do you reduce Docker image size? (Very frequently asked)</span></summary><div class="ans">
+<ol>
+<li><b>Multi-stage builds</b>: compile in a fat image and ship only the artifacts.</li>
+<li><b>Smaller base images</b>: <code>-slim</code>, <code>alpine</code> (musl libc caveats), <code>distroless</code>, <code>scratch</code> for static binaries.</li>
+<li><b>Combine RUN steps and clean up in the same layer</b> (apt caches, temp files).</li>
+<li><code>--no-install-recommends</code> (apt), <code>pip install --no-cache-dir</code>, <code>apk add --no-cache</code>.</li>
+<li><b>.dockerignore</b> to keep <code>.git</code>, <code>node_modules</code>, tests, and secrets out.</li>
+<li>Install only production dependencies (<code>npm ci --omit=dev</code>).</li>
+<li>Analyze with <code>docker history</code>, <code>dive</code>, or <code>docker scout</code>.</li>
+</ol>
+<pre><code>RUN apt-get update \
+ &amp;&amp; apt-get install -y --no-install-recommends curl ca-certificates \
+ &amp;&amp; rm -rf /var/lib/apt/lists/*</code></pre>
+<p>Typical result: a Go app goes from ~900 MB (<code>golang</code> image) to under 15 MB (<code>scratch</code>/<code>distroless</code>).</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">What is a multi-stage build? Give an example.</span></summary><div class="ans">
+<p>A Dockerfile with multiple <code>FROM</code> stages. Earlier stages build or test, and the final stage copies only the needed artifacts with <code>COPY --from=</code>. Compilers, source code, and build tools stay out of the final image, so it is smaller and has less attack surface.</p>
+<pre><code><span class="c"># syntax=docker/dockerfile:1</span>
+FROM golang:1.23 AS build
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /out/app ./cmd/app
+
+FROM build AS test
+RUN go test ./...
+
+FROM gcr.io/distroless/static-debian12:nonroot AS final
+COPY --from=build /out/app /app
+USER nonroot:nonroot
+EXPOSE 8080
+ENTRYPOINT ["/app"]</code></pre>
+<pre><code>docker build -t app:1.0 .                 <span class="c"># builds final stage (test stage skipped by BuildKit if unused)</span>
+docker build --target test -t app:test .  <span class="c"># run only up to the test stage</span></code></pre>
+<p class="tip">BuildKit builds only the stages the target depends on, and builds independent stages in parallel.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">What is the difference between docker save/load and docker export/import?</span></summary><div class="ans">
+<table>
+<tr><th>save / load</th><th>export / import</th></tr>
+<tr><td>Works on <b>images</b></td><td>Works on <b>containers</b></td></tr>
+<tr><td>Keeps all layers, tags, history, and metadata (CMD, ENV...)</td><td>Flattens to a single filesystem layer and loses history and metadata</td></tr>
+<tr><td>Use for air-gapped transfer of images</td><td>Use for snapshotting a container filesystem</td></tr>
+</table>
+<pre><code>docker save -o app.tar app:1.0 &amp;&amp; scp app.tar host: &amp;&amp; ssh host docker load -i app.tar
+docker save app:1.0 | gzip &gt; app.tar.gz
+docker export mycontainer &gt; fs.tar &amp;&amp; docker import fs.tar myimg:flat</code></pre>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">What are dangling images and how do you clean up disk space?</span></summary><div class="ans">
+<p>Dangling images are untagged layers shown as <code>&lt;none&gt;:&lt;none&gt;</code>. They usually appear after rebuilding a tag.</p>
+<pre><code>docker system df                     <span class="c"># what uses space</span>
+docker image prune                   <span class="c"># dangling images</span>
+docker image prune -a --filter "until=168h"   <span class="c"># unused images older than 7 days</span>
+docker container prune
+docker volume prune                  <span class="c"># careful: data loss</span>
+docker builder prune --keep-storage 10GB
+docker system prune -a --volumes     <span class="c"># nuke everything unused - be careful!</span></code></pre>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">Why should you avoid the :latest tag? Tag vs digest?</span></summary><div class="ans">
+<ul>
+<li><code>latest</code> is just a default tag name. It does not mean "newest" and it is <b>mutable</b>, so deployments are not reproducible and rollbacks are ambiguous.</li>
+<li>Tags can be re-pointed. <b>Digests</b> (<code>@sha256:...</code>) are immutable content hashes.</li>
+<li>Best practice: tag with a semantic version plus the git SHA (<code>app:1.4.2</code>, <code>app:1.4.2-a1b2c3d</code>), and pin by digest in production manifests.</li>
+</ul>
+<pre><code>docker pull nginx:1.27
+docker inspect --format='{{index .RepoDigests 0}}' nginx:1.27
+<span class="c"># FROM nginx:1.27@sha256:&lt;digest&gt;   &lt;- reproducible base</span></code></pre>
+</div></details>
+
+<details class="qa" data-level="adv"><summary><span class="qt">What is BuildKit and what advanced features does it provide?</span></summary><div class="ans">
+<p>BuildKit is the modern build engine (the default since Docker 23). Its features:</p>
+<ul>
+<li>Parallel builds of independent stages, with unused stages skipped.</li>
+<li><b>Cache mounts</b> (<code>--mount=type=cache</code>) for package manager caches that persist across builds.</li>
+<li><b>Secret mounts</b> (<code>--mount=type=secret</code>) that never get written to a layer.</li>
+<li><b>SSH forwarding</b> (<code>--mount=type=ssh</code>) for cloning private repos.</li>
+<li>External cache import/export (registry, local, GitHub Actions, S3).</li>
+<li>Multi-platform builds with <code>buildx</code>, heredocs, and <code>COPY --link</code>.</li>
+<li>Build attestations (SBOM, provenance).</li>
+</ul>
+<pre><code><span class="c"># syntax=docker/dockerfile:1</span>
+FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt
+RUN --mount=type=secret,id=netrc,target=/root/.netrc \
+    pip install private-package
+RUN --mount=type=ssh git clone git@github.com:org/private.git /opt/private
+COPY . .</code></pre>
+<pre><code>docker build --secret id=netrc,src=$HOME/.netrc --ssh default -t app .</code></pre>
+</div></details>
+
+<details class="qa" data-level="adv"><summary><span class="qt">How do you build multi-architecture images (amd64 + arm64)?</span></summary><div class="ans">
+<p>Use <code>docker buildx</code>. It produces a <b>manifest list</b> (OCI image index) that points to one image per platform. The client pulls the matching one automatically. Cross-builds use QEMU emulation or native remote builders. Cross-compilation in the Dockerfile with <code>$BUILDPLATFORM</code>/<code>$TARGETARCH</code> is the fastest option.</p>
+<pre><code>docker run --privileged --rm tonistiigi/binfmt --install all   <span class="c"># QEMU emulators</span>
+docker buildx create --name multi --use
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t registry.example.com/app:1.0 --push .
+docker buildx imagetools inspect registry.example.com/app:1.0</code></pre>
+<pre><code>FROM --platform=$BUILDPLATFORM golang:1.23 AS build
+ARG TARGETOS TARGETARCH
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /app .</code></pre>
+</div></details>
+
+<details class="qa" data-level="adv"><summary><span class="qt">How do you share build cache in CI where every runner is fresh?</span></summary><div class="ans">
+<p>Export the BuildKit cache to a registry (or the GHA cache backend) and import it on the next build. <code>mode=max</code> caches the layers of all intermediate stages, not just the final one.</p>
+<pre><code>docker buildx build \
+  --cache-from type=registry,ref=registry.example.com/app:buildcache \
+  --cache-to   type=registry,ref=registry.example.com/app:buildcache,mode=max \
+  -t registry.example.com/app:${GIT_SHA} --push .
+
+<span class="c"># GitHub Actions</span>
+<span class="c">#   --cache-from type=gha --cache-to type=gha,mode=max</span></code></pre>
+</div></details>
+</section>
+
+<!-- ===================================================== -->
+<section id="dockerfile" data-title="Dockerfile">
+<h2>3. Dockerfile Deep Dive</h2>
+
+<details class="qa" data-level="inter"><summary><span class="qt">CMD vs ENTRYPOINT - what is the difference and how do they combine? (Top question)</span></summary><div class="ans">
+<ul>
+<li><b>ENTRYPOINT</b>: the executable that always runs. It is overridden only with <code>--entrypoint</code>.</li>
+<li><b>CMD</b>: default arguments (or a default command). It is overridden by any arguments after the image name in <code>docker run</code>.</li>
+<li>When both are in exec form, CMD is appended to ENTRYPOINT as arguments.</li>
+</ul>
+<pre><code>FROM alpine
+ENTRYPOINT ["ping"]
+CMD ["-c", "3", "localhost"]</code></pre>
+<pre><code>docker run img                 <span class="c"># ping -c 3 localhost</span>
+docker run img -c 1 8.8.8.8    <span class="c"># ping -c 1 8.8.8.8   (CMD replaced)</span>
+docker run --entrypoint sh img -c 'echo hi'   <span class="c"># entrypoint replaced</span></code></pre>
+<table>
+<tr><th></th><th>No ENTRYPOINT</th><th>ENTRYPOINT exec_entry p1</th><th>ENTRYPOINT ["exec_entry","p1"]</th></tr>
+<tr><td>No CMD</td><td>error</td><td>/bin/sh -c exec_entry p1</td><td>exec_entry p1</td></tr>
+<tr><td>CMD ["c1","c2"]</td><td>c1 c2</td><td>/bin/sh -c exec_entry p1 (CMD ignored)</td><td>exec_entry p1 c1 c2</td></tr>
+<tr><td>CMD c1 c2</td><td>/bin/sh -c c1 c2</td><td>/bin/sh -c exec_entry p1</td><td>exec_entry p1 /bin/sh -c c1 c2</td></tr>
+</table>
+<p class="tip"><b>Pattern:</b> ENTRYPOINT = fixed binary or wrapper script, CMD = default flags. This makes the image behave like a CLI tool.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">Shell form vs exec form - why does it matter?</span></summary><div class="ans">
+<p><b>Shell form</b> (<code>CMD node server.js</code>) runs as <code>/bin/sh -c "node server.js"</code>, so <code>sh</code> becomes PID 1. Most shells do <b>not forward signals</b>, so <code>docker stop</code> waits 10s and then SIGKILLs the app with no graceful shutdown.</p>
+<p><b>Exec form</b> (<code>CMD ["node","server.js"]</code>) runs the binary directly as PID 1, which receives SIGTERM. Exec form does not expand variables, though, so <code>$HOME</code> is not expanded.</p>
+<pre><code>CMD ["node", "server.js"]            <span class="c"># preferred</span>
+CMD ["sh", "-c", "exec node server.js --port $PORT"]   <span class="c"># need env expansion: use exec</span></code></pre>
+<p class="warn">Exec form must use <b>double quotes</b> because it is JSON. <code>CMD ['node','app.js']</code> silently falls back to shell form.</p>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">COPY vs ADD?</span></summary><div class="ans">
+<p>Both copy files into the image. <b>ADD</b> can also (1) auto-extract <b>local</b> tar archives (gzip/bzip2/xz) and (2) fetch remote URLs, and recent versions can add git repos. Because that "magic" is implicit, the best practice is to use <b>COPY</b> by default and ADD only when you need tar auto-extraction.</p>
+<pre><code>COPY --chown=app:app src/ /app/src/
+ADD rootfs.tar.gz /             <span class="c"># auto-extracts</span>
+<span class="c"># For URLs prefer RUN curl ... &amp;&amp; verify checksum &amp;&amp; cleanup (one layer), or:</span>
+ADD --checksum=sha256:&lt;hash&gt; https://example.com/tool.tar.gz /tmp/</code></pre>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">ARG vs ENV?</span></summary><div class="ans">
+<table>
+<tr><th>ARG</th><th>ENV</th></tr>
+<tr><td>Build-time only</td><td>Build-time and runtime (persists in the image)</td></tr>
+<tr><td>Set with <code>--build-arg</code></td><td>Override with <code>docker run -e</code></td></tr>
+<tr><td>Not in the final container's environment (but visible in <code>docker history</code>!)</td><td>Visible in <code>docker inspect</code></td></tr>
+</table>
+<pre><code>ARG BASE_TAG=3.12-slim           <span class="c"># ARG before FROM: only usable in FROM lines</span>
+FROM python:${BASE_TAG}
+ARG APP_VERSION=dev              <span class="c"># must re-declare after FROM to use</span>
+ENV APP_VERSION=${APP_VERSION} \
+    PYTHONUNBUFFERED=1
+LABEL org.opencontainers.image.version=$APP_VERSION</code></pre>
+<pre><code>docker build --build-arg APP_VERSION=1.4.2 --build-arg BASE_TAG=3.12-alpine -t app .</code></pre>
+<p class="warn">Never pass secrets with ARG or ENV. They are recorded in image metadata and history. Use BuildKit <code>--secret</code>.</p>
+</div></details>
+
+<details class="qa" data-level="basic"><summary><span class="qt">What does EXPOSE do? Is it required to publish a port?</span></summary><div class="ans">
+<p><code>EXPOSE</code> is <b>documentation/metadata only</b>. It does not publish anything. Ports are published at runtime with <code>-p</code>. <code>-P</code> publishes all EXPOSEd ports to random high host ports.</p>
+<pre><code>docker run -p 8080:80 nginx          <span class="c"># host 8080 -> container 80 (all interfaces)</span>
+docker run -p 127.0.0.1:8080:80 nginx  <span class="c"># bind only to localhost (safer)</span>
+docker run -P nginx &amp;&amp; docker port $(docker ps -lq)</code></pre>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">What is .dockerignore and why is it important?</span></summary><div class="ans">
+<p>It excludes files from the <b>build context</b> sent to the builder. Benefits: faster builds (smaller context), better cache hits, smaller images when you <code>COPY . .</code>, and it prevents secrets from leaking into images.</p>
+<pre><code><span class="c"># .dockerignore</span>
+.git
+node_modules
+**/*.log
+.env
+*.pem
+Dockerfile*
+docker-compose*.yml
+coverage/
+!README.md</code></pre>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">Explain HEALTHCHECK. How is it different from Kubernetes probes?</span></summary><div class="ans">
+<p>HEALTHCHECK defines a command Docker runs periodically. Exit code 0 means <b>healthy</b> and 1 means <b>unhealthy</b>. Status shows in <code>docker ps</code>. Compose's <code>depends_on: condition: service_healthy</code> uses it, and Swarm replaces unhealthy tasks.</p>
+<pre><code>HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
+  CMD curl -fsS http://localhost:8080/healthz || exit 1</code></pre>
+<pre><code>docker inspect --format='{{json .State.Health}}' app | jq</code></pre>
+<p><b>Difference:</b> plain Docker only <i>reports</i> unhealthy and does not restart the container by itself. Kubernetes <b>ignores</b> Dockerfile HEALTHCHECK and uses liveness, readiness, and startup probes instead.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">WORKDIR, USER, VOLUME, STOPSIGNAL, SHELL, ONBUILD, LABEL - what do they do?</span></summary><div class="ans">
+<ul>
+<li><b>WORKDIR</b>: sets the working directory and creates it if missing. Prefer it over <code>RUN cd</code>, which does not persist between instructions.</li>
+<li><b>USER</b>: the user/UID for following RUN, CMD, and ENTRYPOINT instructions. Use it to run as non-root.</li>
+<li><b>VOLUME</b>: declares a mount point. An anonymous volume is created at runtime if nothing is mounted there. Changes made to that path after the VOLUME line in the build may be discarded.</li>
+<li><b>STOPSIGNAL</b>: the signal sent by <code>docker stop</code> (for example <code>SIGQUIT</code> for nginx graceful shutdown).</li>
+<li><b>SHELL</b>: changes the default shell for shell form (for example <code>["/bin/bash","-o","pipefail","-c"]</code>).</li>
+<li><b>ONBUILD</b>: a trigger that runs when another image uses this one as a base.</li>
+<li><b>LABEL</b>: metadata (OCI annotations such as <code>org.opencontainers.image.source</code>).</li>
+</ul>
+<pre><code>SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -fsSL https://example.com/x | tar xz   <span class="c"># fails build if curl fails</span>
+RUN groupadd -r app &amp;&amp; useradd -r -g app -u 10001 app
+WORKDIR /app
+USER 10001
+STOPSIGNAL SIGTERM</code></pre>
+</div></details>
+
+<details class="qa" data-level="adv"><summary><span class="qt">How do you write a correct entrypoint script? Why use "exec $@"?</span></summary><div class="ans">
+<p>Wrapper scripts do setup (render config, wait for dependencies, run migrations) and then must <b>replace themselves</b> with the main process using <code>exec</code>. That way the app becomes PID 1, receives signals, and its exit code propagates. <code>"$@"</code> passes CMD through as arguments.</p>
+<pre><code>#!/bin/sh
+set -eu
+: "${DB_HOST:?DB_HOST is required}"
+envsubst &lt; /etc/app/config.tmpl &gt; /etc/app/config.yaml
+if [ "${1:-}" = "migrate" ]; then exec /app/migrate; fi
+exec "$@"</code></pre>
+<pre><code>COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/app/server", "--port=8080"]</code></pre>
+</div></details>
+
+<details class="qa" data-level="adv"><summary><span class="qt">What are Dockerfile heredocs and COPY --link?</span></summary><div class="ans">
+<p><b>Heredocs</b> (dockerfile syntax 1.4+) let you write multi-line scripts or inline files without long <code>&amp;&amp; \</code> chains:</p>
+<pre><code><span class="c"># syntax=docker/dockerfile:1</span>
+RUN &lt;&lt;EOF
+set -e
+apt-get update
+apt-get install -y --no-install-recommends curl
+rm -rf /var/lib/apt/lists/*
+EOF
+COPY &lt;&lt;EOF /etc/app/config.ini
+[server]
+port=8080
+EOF</code></pre>
+<p><b>COPY --link</b> creates the copied layer independently of the layers below it. If the base image changes, the layer does not need to be rebuilt and can be rebased, which speeds up rebuilds and cache reuse.</p>
+</div></details>
+
+<details class="qa" data-level="inter"><summary><span class="qt">Write a production-grade Dockerfile for a Node.js / Python app.</span></summary><div class="ans">
+<pre><code><span class="c"># syntax=docker/dockerfile:1</span>
+<span class="c"># ---------- Node.js ----------</span>
+FROM node:20-bookworm-slim AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev
+
+FROM node:20-bookworm-slim AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci
+COPY . .
+RUN npm run build
+
+FROM node:20-bookworm-slim
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=deps  --chown=node:node /app/node_modules ./node_modules
+COPY --from=build --chown=node:node /app/dist ./dist
+USER node
+EXPOSE 3000
+HEALTHCHECK CMD node -e "require('http').get('http://localhost:3000/healthz',r=&gt;process.exit(r.statusCode===200?0:1)).on('error',()=&gt;process.exit(1))"
+CMD ["node", "dist/server.js"]</code></pre>
+<pre><code><span class="c"># syntax=docker/dockerfile:1</span>
+<span class="c"># ---------- Python ----------</span>
+FROM python:3.12-slim AS builder
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /app
+RUN python -m venv /venv
+ENV PATH=/venv/bin:$PATH
+COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
+
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PATH=/venv/bin:$PATH
+RUN useradd -r -u 10001 app
+COPY --from=builder /venv /venv
+WORKDIR /app
+COPY --chown=app . .
+USER 10001
+EXPOSE 8000
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "-w", "4", "app:app"]</code></pre>
+</div></details>
+</section>
+
+<!-- ===================================================== -->
+<section id="runtime" data-title="Containers &amp; Runtime">
+<h2>4. Running Containers &amp; Runtime Behavior</h2>
+
+<details class="qa" data-level="basic"><summary><span class="qt">Explain common docker run flags.</span></summary><div class="ans">
+<pre><code>docker run -d \                       <span class="c"
